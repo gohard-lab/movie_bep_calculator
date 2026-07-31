@@ -209,12 +209,21 @@ with tab1:
             delta_color="inverse"
         )
         
-    # 비교 시각화 차트
+    # 비교 시각화 차트 (범례 글자 색상 및 가독성 개선)
     fig_hope = go.Figure(data=[
         go.Bar(name='선판매 반영 전 필요 관객수', x=['한국 기준 BEP'], y=[calc_no_presale['korea_bep']], marker_color='#EF553B'),
         go.Bar(name='선판매 반영 후 실제 필요 관객수', x=['한국 기준 BEP'], y=[calc_with_presale['korea_bep']], marker_color='#636EFA')
     ])
-    fig_hope.update_layout(barmode='group', title="선판매 여부에 따른 '호프' 손익분기점 변화 (단위: 만명)")
+    fig_hope.update_layout(
+        barmode='group', 
+        title="선판매 여부에 따른 '호프' 손익분기점 변화 (단위: 만명)",
+        legend=dict(
+            font=dict(color="#111111", size=13, family="Malgun Gothic"),  # 선명한 검은색 글씨
+            bgcolor="rgba(255, 255, 255, 0.95)",                         # 불투명한 흰색 배경
+            bordercolor="#CCCCCC",                                        # 깔끔한 테두리
+            borderwidth=1
+        )
+    )
     st.plotly_chart(fig_hope, use_container_width=True)
 
 # 탭 2: 글로벌 정산 알고리즘 비교
@@ -377,7 +386,7 @@ with tab4:
     st.plotly_chart(fig_custom_bar, use_container_width=True)
 
     # 트래커 기록
-    safe_log_usage("calculate_custom_tab4_bep", {
+    safe_log_usage("movie_bep_calculator", {
         "title": custom_movie_title,
         "total_budget": input_total_budget,
         "override_share": override_producer_share
